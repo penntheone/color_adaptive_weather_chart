@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Landing - phamsq</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="weather.js?rev=1"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="index.html">CSE 383 Finals - phamsq</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link active" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="weather.html">Weather</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="history.html">History</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h1>CSE 383 - Finals</h1>
+            <h5>December 4th, 2022, by Pendleton Pham - @phamsq</h5>
+            <hr class="dotted">
+            <p>Because I have a few experiences working with Spring Boot and front-end, the conception and planning of the project was straightforward and a breeze. However, specific quirks of the language as well as weird problems and unfortunate oversights dragged the project on. For example, the fact that Ajax call are asynchronous, and that you must specifically order the call to be at execution moment, means that it’s incredibly hard to point out the bug, and it took a few hours to debug what is essentially a missing 'false' tag. All and all, it took around 8 hours to finish the project from start to finish.</p>
+            <p>All required functionalities are present and working in this project.</p>
+            <hr class="dotted">
+            <p>For weather, the API calls TomTom and gather the first result of fuzzy search for the longitude and latitude. JS then pass on the two parameters to OpenWeatherMap to get the next five days’ weather, along with pictures for the conditions. Finally, JS post the two JSON payloads to the REST server.</p>
+            <img src="screenshot-weather.png" class="img-fluid" alt="screenshot-weather">
+            <hr class="dotted">
+            <p>For history, the API calls the REST server for the inputted date, and prints out the entire list or the max number of lines, whichever is smaller. Each line has its own unique ID corresponding to the position of display on the list. When the “Show” button is pressed, another API call to the REST server is made, which shows the weather chart and parse only the selected weather.</p>
+            <img src="screenshot-history.png" class="img-fluid" alt="screenshot-history">
+            <hr class="dotted">
+            <p>And last but not least, please Microsoft Internship, let me be your little pogchamp!</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
