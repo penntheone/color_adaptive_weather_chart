@@ -1,6 +1,4 @@
-body {
-    padding-top: 60px;
-}
+
 
 .screenshot {
     border: 1px solid lightgray;
@@ -14,5 +12,17 @@ body {
 }
 
 .container-fluid {
-    padding: 1.5rem;
+    padding: 3rem;
+}
+
+.color {
+    background: linear-gradient(to right, hsl(180, 50%, 50%), hsl(300, 50%, 50%));
+}
+
+.black {
+    margin: auto;
+}
+
+.black-1 {
+    text-align: right;
 }
