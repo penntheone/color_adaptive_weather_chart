@@ -30,7 +30,7 @@ function getWeather() {
         url: "https://api.openweathermap.org/data/2.5/forecast" +
             "?lat=" + lat +
             "&lon=" + lon +
-            "&units=metric" +
+            "&units=imperial" +
             "&appid=" + apiOpenWeather,
         async: false,
         method: "GET"
@@ -41,25 +41,7 @@ function getWeather() {
         $("#status").prepend("root error " + new Date() + "<br>");
     });
 
-    for (let i = 0; i < 5; i++) {
-        let curPayload = weatherJson.responseJSON.list[i * 8];
-
-        let curDate = new Date(curPayload.dt * 1000);
-        let icon = "http://openweathermap.org/img/wn/" + curPayload.weather[0].icon + ".png";
-
-        $("#forecasts").append(
-            "<tr>" +
-            "<td class='align-middle'>" + curDate.toDateString()    + "</td>" +
-            "<td class='align-middle'>" + curPayload.main.temp_max  + "</td>" +
-            "<td class='align-middle'>" + curPayload.main.temp_min  + "</td>" +
-            "<td class='align-middle'><img src=\"" + icon + "\">       </td>" +
-            "<td class='align-middle'>" + curPayload.visibility     + "</td>" +
-            "<td class='align-middle'>" + curPayload.main.humidity  + "</td>" +
-            "</tr>"
-        );
-    }
-
-    injectWeather(weatherJson);
+    injectWeather(weatherJson.responseJSON);
 
     $.ajax({
         url: "http://172.17.13.84/final.php?method=setWeather" +
@@ -77,9 +59,45 @@ function getWeather() {
 }
 
 function injectWeather(weatherJson) {
+    let max_maxTemp = Number.MIN_SAFE_INTEGER;
+    let min_minTemp = Number.MAX_SAFE_INTEGER;
+
+    let minArray = [];
+    let maxArray = [];
+
     for (let i = 0; i < 5; i++) {
-        let curPayload = weatherJson.responseJSON.list[i * 8];
+        let curMin = Number.MAX_SAFE_INTEGER
+        let curMax = Number.MIN_SAFE_INTEGER;
+
+        for (let k = 0; k < 8; k++) {
+            let main = weatherJson.list[i * 8 + k].main;
+            if (main.temp < curMin) curMin = main.temp;
+            if (main.temp > curMax) curMax = main.temp;
+        }
+
+        minArray.push(curMin);
+        maxArray.push(curMax);
+        if (curMin < min_minTemp) min_minTemp = curMin;
+        if (curMax > max_maxTemp) max_maxTemp = curMax;
+    }
+
+    let max_min_dif = max_maxTemp - min_minTemp;
+    
+    for (let i = 0; i < 5; i++) {
+        let curPayload = weatherJson.list[i * 8];
         let curDate = new Date(curPayload.dt * 1000);
+
+        let curMin = Math.round(minArray[i]);
+        let curMax = Math.round(maxArray[i]);
+
+        // With H:300 at -5F and H:0 at 105F, each degree is a hue jump of 3
+        let curMinHue = 300 - (curMin + 5) * 3;
+        let curMaxHue = 300 - (curMax + 5) * 3;
+
+        // 15% margin each side, and a minimum of 5% for the color bar
+        let width1 = (curMin - min_minTemp) / max_min_dif * 65 + 15;
+        let width2 = (curMax - curMin) / max_min_dif * 65 + 5 ;
+        let width3 = 100 - width1 - width2;
 
         $("#weather").append(
             `<div class="row gy-4 align-items-center">
@@ -110,12 +128,68 @@ function injectWeather(weatherJson) {
                 </div>
                 <div class="col">
                     <div class="row" style="height: 40px; background-color: #EDEDED">
-                        <span class="black black-1" style="width: 44%">` + curPayload.main.temp_min + `</span>
-                        <span class="color" style="width: 28%"></span>
-                        <span class="black black-2" style="width: 28%">` + curPayload.main.temp_max + `</span>
+                        <span class="black black-1" style="width: ` + width1 + `%">` + curMin + `</span>
+                        <span class="color" style="width: ` + width2 + `%; background: linear-gradient(to right, hsl(` + curMinHue + `, 70%, 50%), hsl(` + curMaxHue + `, 70%, 50%));"></span>
+                        <span class="black black-2" style="width: ` + width3 + `%">` + curMax + `</span>
                     </div>
                 </div>
             </div>`
         );
     }
+}
+
+function getQuery() {
+    $("#results").html("");
+    $("#weather").html("");
+
+    let payload = $.ajax({
+        url: "http://172.17.13.84/final.php?method=getWeather" +
+            "&date=" + document.getElementById('datePick').value,
+        async: false,
+        method: "GET"
+    }).done(function (data) {
+        return data;
+    }).fail(function (error) {
+        console.log("error", error.statusText);
+        $("#status").prepend("root error " + new Date() + "<br>");
+    });
+
+    let payloadJson = payload.responseJSON;
+
+    for (let i = 0; i < Math.min(payloadJson.result.length, document.getElementById('maxline').value); i++) {
+        let cur = payloadJson.result[i];
+        let mapJson = JSON.parse(cur.MapJson);
+
+        $("#results").append(
+            "<tr>" +
+            "<td class='align-middle'>" + cur.DateTime    + "</td>" +
+            "<td class='align-middle'>" + cur.Location  + "</td>" +
+            "<td class='align-middle'>" + mapJson.results[0].position.lat     + "</td>" +
+            "<td class='align-middle'>" + mapJson.results[0].position.lon  + "</td>" +
+            "<td class='align-middle'><button type=\"button\" class=\"btn btn-secondary\" id=\" + i + " +
+            "\" onclick=\"getWeatherStored("+ i +")\">Show</button></td>" +
+            "</tr>"
+        );
+    }
+}
+
+function getWeatherStored(i) {
+    $("#weather").html("");
+    window.scrollTo(0, 0);
+
+    let payload = $.ajax({
+        url: "http://172.17.13.84/final.php?method=getWeather" +
+            "&date=" + document.getElementById('datePick').value,
+        async: false,
+        method: "GET"
+    }).done(function (data) {
+        return data;
+    }).fail(function (error) {
+        console.log("error", error.statusText);
+        $("#status").prepend("root error " + new Date() + "<br>");
+    });
+
+    let payloadWeatherJson = JSON.parse(payload.responseJSON.result[i].WeatherJson);
+
+    injectWeather(payloadWeatherJson);
 }
