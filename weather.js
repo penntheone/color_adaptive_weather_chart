@@ -94,7 +94,7 @@ function injectWeather(weatherJson) {
         let curMinHue = 300 - (curMin + 5) * 3;
         let curMaxHue = 300 - (curMax + 5) * 3;
 
-        // 15% margin each side, and a minimum of 5% for the color bar
+        // 15% margin each side, and a minimum of 5% for the color bar to prevent collapsing
         let width1 = (curMin - min_minTemp) / max_min_dif * 65 + 15;
         let width2 = (curMax - curMin) / max_min_dif * 65 + 5 ;
         let width3 = 100 - width1 - width2;
@@ -155,8 +155,10 @@ function getQuery() {
     });
 
     let payloadJson = payload.responseJSON;
+    let maxLine = document.getElementById('maxline').value;
+    if (maxLine === 0) maxLine = Number.MAX_SAFE_INTEGER
 
-    for (let i = 0; i < Math.min(payloadJson.result.length, document.getElementById('maxline').value); i++) {
+    for (let i = 0; i < Math.min(payloadJson.result.length, maxLine); i++) {
         let cur = payloadJson.result[i];
         let mapJson = JSON.parse(cur.MapJson);
 
