@@ -2,7 +2,7 @@
 
 #### December 4th, 2022, by Pendleton Pham - @phamsq, for CSE 383 Honors Finals
 
-A color-adapting weather chart based on temperature radiant.
+A color-adapting weather chart based on temperature radiant. Built with Bootstrap HTML, CSS, JS, and PHP
 
 ![Create](./demo.gif)
 
