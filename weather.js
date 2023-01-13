@@ -43,19 +43,19 @@ function getWeather() {
 
     injectWeather(weatherJson.responseJSON);
 
-    $.ajax({
-        url: "http://172.17.13.84/final.php?method=setWeather" +
-            "&location="+ input,
-        data: {
-            mapJson: mapJson.responseText,
-            weatherJson: weatherJson.responseText,
-        },
-        async: false,
-        method: "POST"
-    }).fail(function (error) {
-        console.log("error", error.statusText);
-        $("#status").prepend("root error " + new Date() + "<br>");
-    });
+    // $.ajax({
+    //     url: "http://172.17.13.84/final.php?method=setWeather" +
+    //         "&location="+ input,
+    //     data: {
+    //         mapJson: mapJson.responseText,
+    //         weatherJson: weatherJson.responseText,
+    //     },
+    //     async: false,
+    //     method: "POST"
+    // }).fail(function (error) {
+    //     console.log("error", error.statusText);
+    //     $("#status").prepend("root error " + new Date() + "<br>");
+    // });
 }
 
 function injectWeather(weatherJson) {
@@ -137,6 +137,8 @@ function injectWeather(weatherJson) {
         );
     }
 }
+
+
 
 function getQuery() {
     $("#results").html("");
