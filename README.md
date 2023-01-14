@@ -1,6 +1,6 @@
 # Color Adaptive Weather Radiant
 
-#### December 4th, 2022, by Pendleton Pham - @phamsq, for CSE 383 Honors Finals
+#### December 4th, 2022, Junior, by Pendleton Pham - @phamsq, for CSE 383 Honors Finals
 
 A color-adapting weather chart based on temperature radiant. Built with Bootstrap HTML, CSS, JS, and PHP
 
