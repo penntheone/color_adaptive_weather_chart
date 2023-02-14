@@ -1,5 +1,6 @@
 const apiTomTom = 'spUtrwDG9NdZVZwD3xU0vOKQoUNyUIOI';
 const apiOpenWeather = 'bfbb1f6239bee1af4c674442fe992863';
+// Throwaway API keys for demo purposes; should be ok to put in source code.
 
 let lat = 0;
 let lon = 0;
