@@ -106,10 +106,10 @@ function injectWeather(weatherJson) {
                 <div class="col-lg-4">
                     <div class="row">
                         <div class="col-3">
-                            <img class="img-fluid icon-small" src="http://openweathermap.org/img/wn/` + curPayload.weather[0].icon + `@2x.png" alt="icon">
+                            <img class="img-fluid icon-small" src="http://openweathermap.org/img/wn/${curPayload.weather[0].icon}@2x.png" alt="icon">
                         </div>
                         <div class="col-7">
-                            <h4>` + curDate.toDateString() +`</h4>
+                            <h4>${curDate.toDateString()}</h4>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-droplet-half" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
@@ -117,21 +117,21 @@ function injectWeather(weatherJson) {
                                 <path fill-rule="evenodd"
                                       d="M4.553 7.776c.82-1.641 1.717-2.753 2.093-3.13l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448z"/>
                             </svg>
-                            <span>` + curPayload.main.humidity +`</span><br>
+                            <span>${curPayload.main.humidity}</span><br>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-eye-fill" viewBox="0 0 16 16">
                                 <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
                                 <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
                             </svg>
-                            <span>` + curPayload.visibility + `</span>
+                            <span>${curPayload.visibility}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="row" style="height: 40px; background-color: #EDEDED">
-                        <span class="black black-1" style="width: ` + width1 + `%">` + curMin + `</span>
-                        <span class="color" style="width: ` + width2 + `%; background: linear-gradient(to right, hsl(` + curMinHue + `, 70%, 50%), hsl(` + curMaxHue + `, 70%, 50%));"></span>
-                        <span class="black black-2" style="width: ` + width3 + `%">` + curMax + `</span>
+                        <span class="black black-1" style="width:${width1}%">${curMin}</span>
+                        <span class="color" style="width:${width2}%; background: linear-gradient(to right, hsl(${curMinHue}, 70%, 50%), hsl(` + curMaxHue + `, 70%, 50%));"></span>
+                        <span class="black black-2" style="width:${width3}%">${curMax}</span>
                     </div>
                 </div>
             </div>`
